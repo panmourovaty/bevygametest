@@ -13,7 +13,7 @@ fn spawn_bullet(
     let bullet_mesh = mesh_assets.add(Cuboid::new(0.01, 0.01, 0.04));
 
     for spawn in events.read() {
-        let color = Color::linear_rgb(255., 255., 0.);
+        let color = Color::linear_rgb(1., 1., 0.);
         let bullet_material = material_assets.add(StandardMaterial {
             base_color: color,
             ..Default::default()

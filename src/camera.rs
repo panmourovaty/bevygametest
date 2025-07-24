@@ -21,7 +21,6 @@ fn create_camera(mut commands: Commands, mut windows: Query<&mut Window>) {
         ))
         .id();
 
-    // Spawn the camera as a child
     commands.entity(logical).with_children(|parent| {
         parent.spawn((
             Camera3d::default(),
@@ -32,6 +31,7 @@ fn create_camera(mut commands: Commands, mut windows: Query<&mut Window>) {
     });
 
     let mut window = windows.single_mut().unwrap();
-    window.cursor_options.visible = false;
+    window.cursor_options.grab_mode = CursorGrabMode::Confined;
     window.cursor_options.grab_mode = CursorGrabMode::Locked;
+    window.cursor_options.visible = false;
 }
