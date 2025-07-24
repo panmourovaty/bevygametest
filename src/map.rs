@@ -11,8 +11,10 @@ fn create_map(
             base_color: color,
             ..Default::default()
         });
+        
+        let random_height: f32 = rand::random_range(0.0..=25.0);
         commands.spawn((
-            Transform::from_translation(Vec3::new((-8. + h as f32) * 2., 5., -50.)),
+            Transform::from_translation(Vec3::new((-8. + h as f32) * 2., random_height, -50.)),
             Mesh3d(ball_mesh.clone()),
             MeshMaterial3d(ball_material),
         ));

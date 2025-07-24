@@ -8,6 +8,7 @@ mimalloc = { version = "*", default-features = false }
 bevy = "0.16"
 bevy_rapier3d = "*"
 bevy_fps_controller = "*"
+rand = "0.9"
 
 [profile.release]
 strip = true
