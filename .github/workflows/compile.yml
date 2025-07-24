@@ -17,8 +17,7 @@ jobs:
           - riscv64gc-unknown-linux-gnu
           - powerpc64le-unknown-linux-gnu
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Install cross
         run: cargo install cross --force
@@ -35,11 +34,9 @@ jobs:
   build-windows:
     runs-on: windows-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Set up Rust stable toolchain
-        uses: actions-rs/toolchain@v1
+      - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
