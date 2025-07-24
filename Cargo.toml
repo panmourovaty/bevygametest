@@ -1,0 +1,16 @@
+[package]
+name = "dangergame"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+mimalloc = { version = "*", default-features = false }
+bevy = "0.16"
+bevy_rapier3d = "*"
+bevy_fps_controller = "*"
+
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
+codegen-units = 1
