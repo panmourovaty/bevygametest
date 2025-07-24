@@ -1,4 +1,4 @@
-name: Rust Cross-Compilation and Artifact Upload
+name: Build game
 
 on:
   push:
@@ -7,53 +7,51 @@ on:
   pull_request:
 
 jobs:
-  build-linux:
+  build-linux-x86_64:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        target:
-          - x86_64-unknown-linux-gnu
-          - aarch64-unknown-linux-gnu
-          - riscv64gc-unknown-linux-gnu
-          - powerpc64le-unknown-linux-gnu
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install build dependencies
+      - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y g++ pkg-config libx11-dev libasound2-dev libudev-dev libxkbcommon-x11-0 libwayland-dev libxkbcommon-dev
-
-      - name: Install cross
-        run: cargo install cross --force
-
-      - name: Build for ${{ matrix.target }}
-        run: cross build --release --target ${{ matrix.target }}
-
-      - name: Upload Linux artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dangergame-${{ matrix.target }}
-          path: target/${{ matrix.target }}/release/dangergame
-
-  build-windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
 
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
 
-      - name: Build for x86_64-pc-windows-msvc
-        run: cargo build --release --target x86_64-pc-windows-msvc
+      - name: Build Linux x86_64
+        run: cargo build --release --target x86_64-unknown-linux-gnu
 
-      - name: Upload Windows artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: dangergame-x86_64-pc-windows-msvc
-          path: target/x86_64-pc-windows-msvc/release/dangergame.exe
+          name: dangergame-linux-x86_64
+          path: target/x86_64-unknown-linux-gnu/release/dangergame
+
+  build-linux-arm64:
+    runs-on: ubuntu-22.04-arm64
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++ pkg-config libx11-dev libasound2-dev libudev-dev libxkbcommon-x11-0 libwayland-dev libxkbcommon-dev
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Build Linux ARM64
+        run: cargo build --release --target aarch64-unknown-linux-gnu
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dangergame-linux-arm64
+          path: target/aarch64-unknown-linux-gnu/release/dangergame
 
   build-macos-arm64:
     runs-on: macos-latest
@@ -65,11 +63,28 @@ jobs:
           toolchain: stable
           override: true
 
-      - name: Build for aarch64-apple-darwin
+      - name: Build macOS ARM64
         run: cargo build --release --target aarch64-apple-darwin
 
-      - name: Upload macOS ARM64 artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: dangergame-aarch64-apple-darwin
+          name: dangergame-macos-arm64
           path: target/aarch64-apple-darwin/release/dangergame
+
+  build-windows-x86_64:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Build Windows x86_64
+        run: cargo build --release --target x86_64-pc-windows-msvc
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dangergame-windows-x86_64
+          path: target\x86_64-pc-windows-msvc\release\dangergame.exe
