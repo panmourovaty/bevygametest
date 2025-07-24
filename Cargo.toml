@@ -11,6 +11,6 @@ bevy_fps_controller = "*"
 
 [profile.release]
 strip = true
-opt-level = "z"
+opt-level = "s"
 lto = true
 codegen-units = 1
