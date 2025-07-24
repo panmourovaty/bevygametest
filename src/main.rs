@@ -13,8 +13,8 @@ fn main() {
     .add_plugins((DefaultPlugins, RapierPhysicsPlugin::<NoUserData>::default(), FpsControllerPlugin))
     .add_systems(Startup,(create_camera,create_map))
     .insert_resource(Time::<Fixed>::from_hz(60.))
-    .add_systems(FixedUpdate, (apply_velocity,bullet_despawn))
-    .add_systems(Update, (spawn_bullet, shoot_bullet.before(spawn_bullet)))
+    .add_systems(FixedUpdate, (bullet_despawn))
+    .add_systems(Update, (spawn_bullet, shoot_bullet.before(spawn_bullet), apply_velocity))
     .add_event::<BulletSpawn>()
     .run();
 }
