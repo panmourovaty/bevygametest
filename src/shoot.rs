@@ -63,7 +63,7 @@ fn shoot_bullet(
 
     spawner.write(BulletSpawn {
         position: spawn_position,
-        velocity: forward * 20.0,
+        velocity: forward * 60.0,
     });
 }
 
